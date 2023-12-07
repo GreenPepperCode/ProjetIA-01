@@ -1,0 +1,20 @@
+{
+    "boiler-plate": {
+        "nickname": "",
+        "password": "",
+        "nb_visit": 0,
+        "history": [],
+        "stats": [],
+        "reviews": []
+    },
+    "users": [
+        {
+            "nickname": "Philippe",
+            "password": "1234",
+            "nb_visit": 0,
+            "history": [],
+            "stats": [],
+            "reviews": []
+        }
+    ]
+}
