@@ -78,25 +78,38 @@ def trouver_films_par_langue(langue_recherchee, all_data):
     return films_trouves
 
 def perform_search(all_data):
-    print("\nTypes de recherche :")
-    print("1. Par Durée")
-    print("2. Par Acteur")
-    print("3. Par Genre")
-    print("4. Par Langue")
-    choix_recherche = input("Choisissez un type de recherche (1-4): ")
+    continuer_recherche = True
 
-    if choix_recherche == '1':
-        duree = int(input("Entrez la durée du film (en minutes): "))
-        return trouver_films_par_duree(duree, all_data)
-    elif choix_recherche == '2':
-        acteur = input("Entrez le nom de l'acteur : ")
-        return trouver_films_par_acteur(acteur, all_data)
-    elif choix_recherche == '3':
-        genre = input("Entrez le genre du film : ")
-        return trouver_films_par_genre(genre, all_data)
-    elif choix_recherche == '4':
-        langue = input("Entrez la langue du film : ")
-        return trouver_films_par_langue(langue, all_data)
-    else:
-        print("Choix invalide. Veuillez réessayer.")
-        return None
+    while continuer_recherche:
+        print("\nTypes de recherche :")
+        print("1. Par Durée")
+        print("2. Par Acteur")
+        print("3. Par Genre")
+        print("4. Par Langue")
+        print("5. Retour au menu utilisateur")
+        choix_recherche = input("Choisissez un type de recherche (1-5): ")
+
+        if choix_recherche == '1':
+            duree = int(input("Entrez la durée du film (en minutes): "))
+            films_list = trouver_films_par_duree(duree, all_data)
+        elif choix_recherche == '2':
+            acteur = input("Entrez le nom de l'acteur : ")
+            films_list = trouver_films_par_acteur(acteur, all_data)
+        elif choix_recherche == '3':
+            genre = input("Entrez le genre du film : ")
+            films_list = trouver_films_par_genre(genre, all_data)
+        elif choix_recherche == '4':
+            langue = input("Entrez la langue du film : ")
+            films_list = trouver_films_par_langue(langue, all_data)
+        elif choix_recherche == '5':
+            continuer_recherche = False
+            continue
+
+        if films_list:
+            for film in films_list:
+                print(film)
+        else:
+            print("Aucun film trouvé.")
+
+        if choix_recherche != '5':
+            input("\nAppuyez sur Entrée pour continuer...")

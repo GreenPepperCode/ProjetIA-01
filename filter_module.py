@@ -1,5 +1,3 @@
-import pandas as pd
-
 def filtrer_films_par_genre(all_data, genres):
     if genres:
         return all_data[all_data['genres'].apply(lambda x: all(genre in x for genre in genres))]
