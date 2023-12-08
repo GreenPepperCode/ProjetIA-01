@@ -2,12 +2,33 @@ import data_module as data
 import user_module
 import search_module as search
 import filter_module 
+from filter_module import safe_json_loads
+import pandas as pd
 
-def display_main_menu():
+def display_main_menu(all_data):
+    # Calcul des statistiques
+    total_films = len(all_data)
+    total_runtime = all_data['runtime'].sum()
+    
+    # Extraction des noms des genres
+    genre_counts = pd.Series([genre['name'] for sublist in all_data['genres'].apply(safe_json_loads) for genre in sublist]).value_counts()
+    top_genres = genre_counts.head(3).index.tolist()
+
+    # Affichage des statistiques
+    print("\nStatistiques Globales:")
+    print(f"Nombre total de films: {total_films}")
+    print(f"Total d'heures visionnables: {total_runtime/60:.2f} heures")
+    print(f"Top 3 genres: {', '.join(top_genres)}")
+
+    # Affichage du menu principal
     print("\nMenu Principal")
     print("1. S'inscrire")
     print("2. Se connecter")
     print("3. Quitter le programme")
+
+
+# Assurez-vous d'appeler cette fonction avec le DataFrame all_data dans le main
+
 
 def display_filter_menu(all_data):
     print("\nMenu de Filtrage")
@@ -90,7 +111,7 @@ def main():
     all_data = data.load_data()
     est_actif = True
     while est_actif:
-        display_main_menu()
+        display_main_menu(all_data)
         choix = input("Entrez votre choix (1-3): ")
         if choix == '1':
             user_info = user_module.create_account()
