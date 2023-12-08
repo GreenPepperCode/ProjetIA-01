@@ -79,6 +79,7 @@ def trouver_films_par_langue(langue_recherchee, all_data):
 
 def perform_search(all_data):
     continuer_recherche = True
+    data_filtree = all_data.copy()  # Créer une copie du DataFrame pour appliquer les filtres
 
     while continuer_recherche:
         print("\nTypes de recherche :")
@@ -89,27 +90,32 @@ def perform_search(all_data):
         print("5. Retour au menu utilisateur")
         choix_recherche = input("Choisissez un type de recherche (1-5): ")
 
+        films_list = []
         if choix_recherche == '1':
             duree = int(input("Entrez la durée du film (en minutes): "))
-            films_list = trouver_films_par_duree(duree, all_data)
+            data_filtree = data_filtree[data_filtree['runtime'] == duree]
         elif choix_recherche == '2':
             acteur = input("Entrez le nom de l'acteur : ")
-            films_list = trouver_films_par_acteur(acteur, all_data)
+            data_filtree = data_filtree[data_filtree['cast'].apply(lambda x: acteur in x)]
         elif choix_recherche == '3':
             genre = input("Entrez le genre du film : ")
-            films_list = trouver_films_par_genre(genre, all_data)
+            data_filtree = data_filtree[data_filtree['genres'].apply(lambda x: genre in x)]
         elif choix_recherche == '4':
             langue = input("Entrez la langue du film : ")
-            films_list = trouver_films_par_langue(langue, all_data)
+            data_filtree = data_filtree[data_filtree['spoken_languages'].apply(lambda x: langue in x)]
         elif choix_recherche == '5':
             continuer_recherche = False
-            continue
+            break
 
-        if films_list:
-            for film in films_list:
-                print(film)
+        if not data_filtree.empty:
+            # Afficher un maximum de 5 films
+            for index, row in data_filtree.head(5).iterrows():
+                print(row['title'])
         else:
             print("Aucun film trouvé.")
 
         if choix_recherche != '5':
             input("\nAppuyez sur Entrée pour continuer...")
+
+    # Réinitialiser la recherche si l'utilisateur retourne au menu principal
+    return

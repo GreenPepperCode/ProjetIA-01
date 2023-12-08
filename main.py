@@ -118,7 +118,21 @@ def main():
             display_user_menu(user_info, all_data)
         elif choix == '2':
             user_info = user_module.connect()
-            display_user_menu(user_info, all_data)
+            while user_info:  # Tant que l'utilisateur est connecté
+                display_user_menu(user_info, all_data)  # Affiche le menu de l'utilisateur
+                user_choix = input("Entrez votre choix (1-4): ")
+                if user_choix == '1':
+                    search.perform_search(all_data)  # Effectue la recherche
+                elif user_choix == '2':
+                    display_filter_menu(all_data)  # Affiche le menu de filtrage
+                elif user_choix == '3':
+                    # Gérer les données de l'utilisateur
+                    pass
+                elif user_choix == '4':
+                    print("Déconnexion réussie. Au revoir !")
+                    break  # Sort de la boucle, se déconnecte
+                else:
+                    print("Choix invalide. Veuillez réessayer.")
         elif choix == '3':
             print("Au revoir !")
             est_actif = False
@@ -127,3 +141,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
