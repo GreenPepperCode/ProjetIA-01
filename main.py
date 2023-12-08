@@ -1,7 +1,7 @@
 import data_module as data
 import user_module
 import search_module as search
-import filter_module as filter
+import filter_module 
 
 def display_main_menu():
     print("\nMenu Principal")
@@ -20,18 +20,46 @@ def display_filter_menu(all_data):
         choix_filtrage = input("Entrez votre choix (1-4): ")
 
         if choix_filtrage == '1':
-            # Logique de filtrage par genre
-            pass
+            genres = input("Entrez les genres séparés par des virgules : ").split(',')
+            data_filtree = filter_module.appliquer_filtres(all_data, genres=genres)
         elif choix_filtrage == '2':
-            # Logique de filtrage par durée
-            pass
+            duree_min = int(input("Entrez la durée minimale (en minutes) : "))
+            duree_max = int(input("Entrez la durée maximale (en minutes) : "))
+            data_filtree = filter_module.appliquer_filtres(all_data, duree_min=duree_min, duree_max=duree_max)
         elif choix_filtrage == '3':
-            # Logique de filtrage par pays
-            pass
+            pays = input("Entrez le pays : ")
+            data_filtree = filter_module.appliquer_filtres(all_data, pays=pays)
         elif choix_filtrage == '4':
             break  # Sortie de la boucle pour revenir au menu utilisateur
         else:
             print("Choix invalide. Veuillez réessayer.")
+
+        if choix_filtrage in ['1', '2', '3']:
+            quitter = filter_module.naviguer_films(data_filtree)
+            if quitter:
+                break  # Sortie de la boucle pour revenir au menu utilisateur après la navigation
+
+    return
+
+
+def display_filtered_films(data_filtree):
+    index = 0
+    max_index = len(data_filtree) - 1
+    while True:
+        if not data_filtree.empty:
+            print(data_filtree.iloc[index])  # Afficher le film actuel
+        else:
+            print("Aucun film trouvé.")
+            break
+
+        commande = input("Utilisez '>' pour le prochain film, '<' pour le précédent, ou 'exit' pour quitter: ")
+        if commande == '>' and index < max_index:
+            index += 1
+        elif commande == '<' and index > 0:
+            index -= 1
+        elif commande == 'exit':
+            break
+
 
 def display_user_menu(user_info, all_data):
     print(f"\nMenu de {user_info['nickname']}")
@@ -47,7 +75,7 @@ def display_user_menu(user_info, all_data):
         if choix == '1':
             search.perform_search(all_data)  # Gère la recherche et l'affichage des résultats
         elif choix == '2':
-            display_filter_menu(all_data)
+            display_filter_menu(all_data)  # Gère le filtrage et l'affichage des résultats
         elif choix == '3':
             # Logique pour gérer les données de l'utilisateur
             pass
