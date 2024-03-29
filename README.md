@@ -30,11 +30,3 @@ Les contributions à ce projet sont les bienvenues. Si vous souhaitez contribuer
 
 ## Licence
 Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## Auteurs
-- [Votre Nom]
-- [Nom des Autres Contributeurs]
-
----
-
-Ce README est un modèle de base. N'hésitez pas à l'ajuster et à y ajouter plus de détails selon les spécificités de votre projet.
